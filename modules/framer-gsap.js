@@ -22,7 +22,7 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
   "use strict";
 
   _gsScope._gsDefine.plugin({
-    propName: "yourCustomProperty", //the name of the property that will get intercepted and handled by this plugin 
+    propName: "backgroundColor", //the name of the property that will get intercepted and handled by this plugin 
     // (obviously change it to whatever you want, typically it is camelCase starting with lowercase).
     priority: 0, //the priority in the rendering pipeline (0 by default). 
     // A priority of -1 would mean this plugin will run after all those with 0 or greater. 
@@ -30,8 +30,8 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
     // finishing their work before it runs (or visa-versa)
     API: 2, //the API should stay 2 - it just gives us a way to know the method/property structure 
     // so that if in the future we change to a different TweenPlugin architecture, we can identify this plugin's structure.
-    version: "1.0.0", //your plugin's version number
-    overwriteProps: ["yourCustomProperty"], //an array of property names whose tweens should be overwritten by this plugin. 
+    version: "0.0.1", //your plugin's version number
+    overwriteProps: ["backgroundColor"], //an array of property names whose tweens should be overwritten by this plugin. 
     // For example, if you create a "scale" plugin that handles both "scaleX" and "scaleY", the overwriteProps 
     // would be ["scaleX","scaleY"] so that if there's a scaleX or scaleY tween in-progress when a new "scale" tween starts 
     // (using this plugin), it would overwrite the scaleX or scaleY tween.
@@ -61,6 +61,7 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
      */
     init: function(target, value, tween, index) {
       this._target = target; //we record the target so that we can refer to it in the set method when doing updates.
+      target.bgc = target.backgroundColor.color;
 
       /* Next, we create a property tween for "scaleX" and "scaleY" properties of our target
        * (we're just using them as a examples of how to set up a property tween with a name, start, and end value).
@@ -78,13 +79,12 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
        * You do NOT need to use _addTween() at all. It is merely a convenience. You can record your own values 
        * internally or whatever you want.
        */
-      this._addTween(target, "scaleX", target.scaleX, value, "scaleX", false);
-      this._addTween(target, "scaleY", target.scaleY, value, "scaleY", false);
+      this._addTween(target, "bgc", target.bgc, value, "bgc", false);
 
       //now, just for kicks, we'll record the starting "alpha" value and amount of change so that we can manage 
       //this manually rather than _addTween() (again, totally fictitious, just for an example)
-      this._alphaStart = target.alpha;
-      this._alphaChange = value.alpha - target.alpha;
+      //this._alphaStart = target.alpha;
+      //this._alphaChange = value.alpha - target.alpha;
 
       //always return true unless we want to scrap the plugin and have the value treated as a normal property tween 
       //(very uncommon)
@@ -102,7 +102,9 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
       this._super.setRatio.call(this, ratio);
 
       //now manually set the alpha
-      this._target.alpha = this._alphaStart + this._alphaChange * ratio;
+      //this._target.alpha = this._alphaStart + this._alphaChange * ratio;
+
+      this._target.backgroundColor = this._target.bgc;
     }
 
   });
