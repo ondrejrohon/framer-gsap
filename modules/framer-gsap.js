@@ -21,6 +21,7 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
   //ignore the line above this and at the very end - those are for ensuring things load in the proper order
   "use strict";
 
+  // Define backgroundColor plugin
   _gsScope._gsDefine.plugin({
     propName: "backgroundColor", //the name of the property that will get intercepted and handled by this plugin 
     // (obviously change it to whatever you want, typically it is camelCase starting with lowercase).
@@ -107,6 +108,30 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
       this._target.backgroundColor = this._target.bgc;
     }
 
+  });
+
+  // Define color plugin
+  _gsScope._gsDefine.plugin({
+      propName: "color",
+      priority: 0,
+      API: 2,
+      version: "0.0.1",
+      overwriteProps: ["color"],
+      init: function(target, value, tween, index) {
+        
+        this._target = target;
+        target.GSAPTextCol = target.color.color;
+        this._addTween(target, "GSAPTextCol", target.GSAPTextCol, value, "GSAPTextCol", false);
+
+        return true;
+
+      },
+      set: function(ratio) {
+
+        this._super.setRatio.call(this, ratio);
+        this._target.color = this._target.GSAPTextCol;
+
+      }
   });
 
 }); if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); }
