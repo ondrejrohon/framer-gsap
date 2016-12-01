@@ -134,4 +134,29 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
       }
   });
 
+  // Define borderColor plugin
+  _gsScope._gsDefine.plugin({
+      propName: "borderColor",
+      priority: 0,
+      API: 2,
+      version: "0.0.1",
+      overwriteProps: ["borderColor"],
+      init: function(target, value, tween, index) {
+        
+        this._target = target;
+        target.GSAPborderCol = target.borderColor.color;
+        console.log(target.borderColor);
+        this._addTween(target, "GSAPborderCol", target.GSAPborderCol, value, "GSAPborderCol", false);
+
+        return true;
+
+      },
+      set: function(ratio) {
+
+        this._super.setRatio.call(this, ratio);
+        this._target.borderColor = this._target.GSAPborderCol;
+
+      }
+  });
+
 }); if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); }
