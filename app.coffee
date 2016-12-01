@@ -102,8 +102,44 @@ speed = new SliderComponent
 	width: 606
 	x: Align.center
 	y: 1236
-	value: 0.5
+	value: 1
+	min: 0.25
+	max: 1.75
 
+
+
+# UI events
+play.onClick ->
+	if play.html is 'play_arrow'
+		play.html = 'pause'
+		tl.play()
+	else
+		play.html = 'play_arrow'
+		tl.pause()
+
+repeat.onClick ->
+	repeatOn = tl.repeat() is -1
+	if repeatOn
+		tl.repeat 0
+	else 
+		tl.repeat -1
+		tl.restart()
+		tl.play()
+
+yoyo.onClick ->
+	if tl.yoyo()
+		tl.yoyo false
+	else
+		tl.yoyo true
+
+reverse.onClick ->
+	if tl.reverse()
+		tl.reverse false
+	else
+		tl.reverse true
+
+speed.on 'change:value', ->
+	tl.timeScale this.value
 
 
 # Define layers which we're gonna animate
@@ -139,8 +175,7 @@ b = new Layer
 
 
 tl = new TimelineMax
-	repeat: -1
-	repeatDelay: 0.2
+	repeatDelay: 0.3
 	paused: true
 	onUpdate: ->
 		progress.value = tl.progress()
