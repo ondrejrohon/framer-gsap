@@ -5,95 +5,97 @@ FramerGSAP = require 'framer-gsap'
 
 
 Canvas.backgroundColor = '#111'
-
-slider = new SliderComponent
-	width: 500
-	x: Align.center
-	y: 1280
-
-slider.on 'change:value', ->
-	tl.seek this.value
-
 Screen.backgroundColor = '#212121'
 	
-wall = new Layer
+control = new Layer
 	maxY: 1334
 	width: 750
 	height: 100
+	backgroundColor: 'rgba(151,151,151,0.46)'
 
 a = new Layer
 	midX: 375
-	y: 40
-	width: 148 * 2
-	height: 148 * 2
-	borderRadius: 148
-	backgroundColor: '#1565C0'
+	y: 88
+	width: 88
+	height: 88
+	borderRadius: 44
+	borderWidth: 2
+	backgroundColor: 'rgba(66,165,245,0.20)'
+	borderColor: 'rgba(66,165,245,0.40)'
 	
 b = new Layer
 	midX: 375
-	y: 510
-	width: 148
-	height: 148
+	y: 390
+	width: 72
+	height: 72
 	borderRadius: 148
-	backgroundColor: '#6A1B9A'
+	borderWidth: 2
+	backgroundColor: 'rgba(127,57,72,0.20)'
+	borderColor: 'rgba(127,57,72,0.30)'
 
-c = new Layer
-	midX: 375
-	y: 800
-	width: 148 * 2
-	height: 148 * 2
-	borderRadius: 148
-	backgroundColor: '#6A1B9A'
+# c = new Layer
+# 	midX: 375
+# 	y: 620
+# 	width: 122
+# 	height: 122
+# 	borderRadius: 148
+# 	borderWidth: 2
+# 	backgroundColor: 'rgba(127,57,72,0.20)'
+# 	borderColor: 'rgba(127,57,72,0.40)'
 
 slider = new SliderComponent
 	width: 500
 	x: Align.center
 	y: 1280
 
-slider.on 'change:value', ->
-	tl.seek this.value
+# slider.on 'change:value', ->
+# 	tl.seek this.value
 
-play = new Layer
-	width: 100
-	height: 100
-	maxY: 1335
-	backgroundColor: '4A148C'
-	
-repeat = new Layer
-	width: 100
-	height: 100
-	maxX: 750
-	maxY: 1335
-	backgroundColor: '4A148C'
-
-play.on Events.Click, ->
-	if tl.progress() is 1
-		tl.restart()
-	else
-		tl.paused !tl.paused()
-	
-repeat.on Events.Click, ->
-	if tl.repeat() is -1 then tl.repeat(0) else tl.repeat(-1)
-	if tl.progress() is 1 then tl.restart()
-
-t1 = 0.3
 
 tl = new TimelineMax
-	repeatDelay: 0.05
-	paused: true
+	repeat: -1
+	repeatDelay: 0.2
+# 	paused: true
 	onUpdate: ->
 		slider.value = tl.progress()
 
-# tl.call => tl.seek 'eat2'
-tl.to a, 0.2, { maxY: b.y, ease: Power1.easeIn }
+# tl.timeScale 0.1
+# tl.call => tl.seek 'jozef'
 
-tl.to a, t1, { y: '+=248', scale: 1.4, ease: Power0.easeIn }, 'eat'
-tl.to b, t1, { y: '+=230', scale: 0, backgroundColor: '#1565C0', ease: Power0.easeIn }, 'eat'
+tl.to a, 1, 
+	maxY: b.y
+	ease: Power1.easeIn
 
-tl.to a, t1, { y: '+=355', scale: 1.8, ease: Power0.easeIn }, 'eat2'
-tl.to c, t1, { y: '+=294', scale: 0, backgroundColor: '#1565C0', ease: Power0.easeIn }, 'eat2'
+tl.to a, 0.2, 
+	borderColor: 'rgba(66,165,245,0.90)'
+	'-=0.2'
 
-tl.to wall, 0.2, { y: '+=200', backgroundColor: '#212121' }, 'hit'
-tl.to a, 0.2, { y: '-=1000', scale: 10 }, 'hit'
+tl.to b, 0.2, 
+	borderColor: 'rgba(127,57,72,0.90)'
+	'-=0.4'
 
-tl.timeScale 0.4
+# tl.call => tl.timeScale 0.1
+	
+tl.to a, 1.15, 
+	backgroundColor: 'rgba(66,165,245,0.40)'
+	y: '+=280'
+	scale: 1.4
+	ease: Power2.easeOut
+	'jozef'
+
+tl.to b, 1.15, 
+	y: '+=254'
+	backgroundColor: 'rgba(66,165,245,0.10)'
+	borderColor: 'rgba(66,165,245,0.10)'
+	scale: 0
+	ease: Power2.easeOut
+	'jozef'
+
+# tl.call => tl.timeScale 1
+
+
+
+
+
+
+
