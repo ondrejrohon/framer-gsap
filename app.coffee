@@ -4,15 +4,109 @@ TimelineMax = require 'TimelineMax'
 FramerGSAP = require 'framer-gsap'
 
 
+
+# Set canvas and screen colors
 Canvas.backgroundColor = '#111'
 Screen.backgroundColor = '#212121'
+
+
+# Define controls
+play = new Layer
+	html: 'play_arrow'
+	style: 
+		'fontFamily': 'Material Icons'
+		'fontSize': '88px'
+		'lineHeight': '88px'
+	backgroundColor: 'transparent'
+	width: 87
+	height: 88
+	y: 1032
+	x: 332
+
+refresh = new Layer
+	html: 'refresh'
+	style: 
+		'fontFamily': 'Material Icons'
+		'fontSize': '44px'
+		'lineHeight': '44px'
+	backgroundColor: 'transparent'
+	width: 43
+	height: 44
+	y: 1054
+	x: 248
+
+repeat = new Layer
+	html: 'repeat'
+	style: 
+		'fontFamily': 'Material Icons'
+		'fontSize': '44px'
+		'lineHeight': '44px'
+	backgroundColor: 'transparent'
+	width: 43
+	height: 44
+	y: 1054
+	x: 481
+
+
+btnStyle =
+	'fontSize': '28px'
+	'lineHeight': '60px'
+	'textAlign': 'center'
+
+reverse = new Layer
+	x: 50
+	y: 1046
+	width: 160
+	height: 60
+	backgroundColor: 'transparent'
+	html: 'REVERSE'
+	style: btnStyle
 	
-control = new Layer
+yoyo = new Layer
+	x: 538
+	y: 1046
+	height: 60
+	backgroundColor: 'transparent'
+	html: 'YOYO'
+	style: btnStyle
+
+label1 = new Layer
+	height: 20
+	html: 'Progress'
+	backgroundColor: 'transparent'
+	y: 1178
+	x: 72
+
+label2 = new Layer
+	height: 20
+	html: 'Speed'
+	backgroundColor: 'transparent'
+	y: 1265
+	x: 72
+
+controlPanel = new Layer
 	maxY: 1334
 	width: 750
-	height: 100
+	height: 330
 	backgroundColor: 'rgba(151,151,151,0.46)'
 
+progress = new SliderComponent
+	width: 606
+	x: Align.center
+	y: 1148
+
+# progress.on 'change:value', ->
+# 	tl.seek this.value
+
+speed = new SliderComponent
+	width: 606
+	x: Align.center
+	y: 1236
+	value: 0.5
+
+
+
+# Define layers which we're gonna animate
 a = new Layer
 	midX: 375
 	y: 88
@@ -43,21 +137,13 @@ b = new Layer
 # 	backgroundColor: 'rgba(127,57,72,0.20)'
 # 	borderColor: 'rgba(127,57,72,0.40)'
 
-slider = new SliderComponent
-	width: 500
-	x: Align.center
-	y: 1280
-
-# slider.on 'change:value', ->
-# 	tl.seek this.value
-
 
 tl = new TimelineMax
 	repeat: -1
 	repeatDelay: 0.2
-# 	paused: true
+	paused: true
 	onUpdate: ->
-		slider.value = tl.progress()
+		progress.value = tl.progress()
 
 # tl.timeScale 0.1
 # tl.call => tl.seek 'jozef'

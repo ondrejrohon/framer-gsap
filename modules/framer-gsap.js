@@ -145,7 +145,6 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
         
         this._target = target;
         target.GSAPborderCol = target.borderColor.color;
-        console.log(target.borderColor);
         this._addTween(target, "GSAPborderCol", target.GSAPborderCol, value, "GSAPborderCol", false);
 
         return true;
